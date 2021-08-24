@@ -1,0 +1,9 @@
+/* eslint-disable import/prefer-default-export */
+export const AGREGAR_PRODUCTO = 'AGREGAR_PRODUCTO';
+export const AGREGAR_PRODUCTO_CORRECTO = 'AGREGAR_PRODUCTO_CORRECTO';
+export const AGREGAR_PRODUCTO_ERROR = 'AGREGAR_PRODUCTO_ERROR';
+
+//
+export const CREAR_BLOQUE = 'CREAR_BLOQUE';
+export const AGREGAR_BLOQUE = 'AGREGAR_BLOQUE';
+export const ELIMINAR_BLOQUE = 'ELIMINAR_BLOQUE';
