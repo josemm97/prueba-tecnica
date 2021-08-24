@@ -7,6 +7,8 @@
 import './App.css';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
+
 import styled from '@emotion/styled';
 import Card from './Components/Card';
 import {
@@ -27,12 +29,16 @@ const ButtonsContainer = styled.div`
     padding: 1rem;
     margin-right: 1rem;
     color: blue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 margin-bottom: 1rem;
     &::last-of-type{
       margin:0;
     }
     span{
-      font-size: 2rem;
+      font-size: 5rem;
+      font-weight: 900;
     }
   }
   
@@ -42,9 +48,9 @@ function App() {
   const [longitudIngresos, setLongitudIngresos] = React.useState();
   const [longitudEgresos, setLongitudEgresos] = React.useState();
   const [generar, setGenerar] = React.useState(true);
-  const [bloques, setbloques] = React.useState(null);
+  const [bloques, setbloques] = React.useState([]);
+  const [activar, setActivar] = React.useState(true);
   const blocksState = useSelector((state) => state.blocks);
-  console.log('selector', blocksState.bloques);
   //
   React.useEffect(() => {
     if (generar) {
@@ -56,10 +62,14 @@ function App() {
       return;
     }
     setbloques(blocksState.bloques);
+    if (bloques.length > 0) {
+      setActivar(false);
+    } else {
+      setActivar(true);
+    }
 
     setGenerar(false);
-  }, [generar]);
-  console.log(longitudIngresos);
+  }, [generar, bloques]);
   const onClickAdd = () => {
     // const longI = generarLongitud();
     //     const longE = generarLongitud();
@@ -68,19 +78,23 @@ function App() {
       egresos: generarValores(longitudEgresos),
     };
     setGenerar(true);
-    console.log(bloque);
     const sumaIngresos = total(bloque.ingresos);
     const sumaEgresos = total(bloque.egresos);
     const resta = sumaIngresos - sumaEgresos;
+    bloque.id = uuidv4();
     bloque.total = resta;
-    console.log(resta);
     dispatch(crearBloqueAction(bloque));
   };
   //
   const onClickDelete = () => {
     const nuevosBloques = eliminar(bloques);
-
+    setbloques(nuevosBloques);
     console.log('length', nuevosBloques);
+    if (bloques.length > 0) {
+      setActivar(false);
+    } else {
+      setActivar(true);
+    }
     dispatch(eliminarBloqueAction(nuevosBloques));
   };
 
@@ -91,9 +105,12 @@ function App() {
         <button type="button" onClick={onClickAdd}>
           <span>&#x0002B;</span>
         </button>
-        <button type="button" onClick={onClickDelete}>
-          <span>-</span>
-        </button>
+        {bloques.length > 0 ? (
+          <button type="button" onClick={onClickDelete} disabled={activar}>
+            <span>-</span>
+          </button>
+        ) : null}
+
       </ButtonsContainer>
     </>
   );

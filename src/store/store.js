@@ -8,15 +8,14 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import { persistStore, persistReducer } from 'redux-persist';
 import reducer from '../reducers.js';
 
-// const persistConfig = {
-//   key: 'root',
-//   storage,
-// };
+const persistConfig = {
+  key: 'root',
+  storage,
+};
 
-// const pReducer = persistReducer(persistConfig, reducer);
-// const middleware = applyMiddleware(thunk, logger);
+const pReducer = persistReducer(persistConfig, reducer);
 const store = createStore(
-  reducer,
+  pReducer,
   compose(
     applyMiddleware(thunk),
     typeof window === 'object'
@@ -24,5 +23,5 @@ const store = createStore(
       ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f,
   ),
 );
-// const persistor = persistStore(store);
-export { store };
+const persistor = persistStore(store);
+export { store, persistor };

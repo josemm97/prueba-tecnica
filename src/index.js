@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable import/no-duplicates */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
@@ -15,8 +14,9 @@ import { store, persistor } from './store/store';
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
-
+      <PersistGate persistor={persistor}>
+        <App />
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'),

@@ -17,12 +17,23 @@ const Container = styled.div`
   grid-template-columns: 1fr;
  }
 
+
+`;
+const Mensaje = styled.div`
+min-height: calc(100 - 788);
+grid-column: 2;
+display: flex;
+justify-content: center;
+align-items: center;
+width: 100%;
+
+
 `;
 const Table = styled.table`
   border: 1px solid black;
   width: 50%;
   height: 50vh;
-  /* background-color: #627aff; */
+  background-color: #d1dce9;
   thead{
     tr{
       border: 1px solid black;
@@ -73,18 +84,11 @@ const ContainerTotal = styled.div`
 `;
 function Card() {
   const blockState = useSelector(((state) => state.blocks.bloques));
-  const [bloques] = blockState;
-  console.log(blockState);
-  // React.useEffect(() => {
-  //    if (bloques) {
-
-  //    };
-  // }, []);
 
   return (
     <Container>
       {blockState && blockState.length > 0 ? blockState.map((bloque) => (
-        <BlocksContainer>
+        <BlocksContainer key={bloque.id}>
           <Table border="1">
             <thead>
               <tr>
@@ -146,7 +150,11 @@ function Card() {
             </ContainerTotal>
           </Table>
         </BlocksContainer>
-      )) : <p>Agregue un bloque</p>}
+      )) : (
+        <Mensaje>
+          <p>Agregue un bloque</p>
+        </Mensaje>
+      )}
     </Container>
   );
 }
